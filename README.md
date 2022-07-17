@@ -1,3 +1,4 @@
+# Infinite Line Load affect on Half Space
 -----------------------------------------------------
 This folder contains MATLAB functions to calculate the stress in a two-dimensional
 half space due to an infinite line load and lithostatic pressure. The functions include
@@ -16,6 +17,7 @@ Failure_Potential and Plot_Failure_Potential.
 All of the functions have documentation, explaining inputs, outputs, and units of variables.
 In the documentation, sources for the equations have been cited for further reference.
 
+# Sources
 ------------------------------------------------------
 This would not have been possible without the help of Dr. Carolina Munoz-Saez, Dr. Seth
 Saltiel, and Dr. Noah Randolph-Flagg. The literature referenced to make these functions
