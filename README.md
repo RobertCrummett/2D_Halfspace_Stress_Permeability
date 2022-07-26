@@ -17,5 +17,6 @@ are included in the documentation, and are also listed here with web addresses:
 
 Amos et al., (2014)
 https://www.nature.com/articles/nature13275#Sec6
+
 Rinaldi et al., (2014)
 https://link.springer.com/article/10.1007/s11242-014-0296-5
