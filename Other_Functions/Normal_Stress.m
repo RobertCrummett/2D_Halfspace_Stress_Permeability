@@ -12,5 +12,6 @@ function sigma_normal = Normal_Stress(sigma_xx, sigma_xz, sigma_zz, phi)
 % sigma_normal = Normal stress field.
 
 sigma_normal = sigma_zz*cos(phi)^2 - 2*sigma_xz*sin(phi)*cos(phi) + sigma_xx*sin(phi)^2;
- 
+
+% positive normal stress indicates compression
 end

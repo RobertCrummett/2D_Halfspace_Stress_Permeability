@@ -31,24 +31,6 @@ if ~exist("color_map","var")
     color_map = 'jet';
 end
 
-switch feild_name
-    case "XX"
-    sigma_feild = -sigma_feild/(10^6); % conversion to MPa
-    case "XZ"
-    sigma_feild = -sigma_feild/(10^6); % conversion to MPa
-    case "ZZ"
-    sigma_feild = -sigma_feild/(10^6); % conversion to MPa
-    case "Normal"
-    sigma_feild = -sigma_feild/(10^6); % conversion to MPa
-    % sign change 
-    case "Shear"
-    sigma_feild = -sigma_feild/(10^6); % conversion to MPa
-    % sign change
-    otherwise
-    error(["feild_name input: " + feild_name + " not supported";...
-        "Supported inputs: 'XX', 'XZ','ZZ','Normal','Shear'"])
-end
-
 % Preallocating structure for speed
 iterations = length(h);
 Frames = struct('cdata',cell(1,iterations),'colormap',cell(1,iterations));
@@ -72,7 +54,6 @@ for i = 1:iterations
     title([strcat(titleStr, "${\phi} = ",string(phi*180/pi),"^{\circ}$");...
        strcat(strcat("Height = ",string(round(h(i),0,"decimals"))," m"),", ",...
        strcat("Half-Width = ",string(round(a(i),0,"decimals"))," m"))],'Interpreter','latex')
-     axis equal
 
     % Colorbar
     colormap(color_map)
@@ -88,7 +69,11 @@ for i = 1:iterations
 
     % frames for videofile
     Frames(i) = getframe(gcf);
+    axis equal
 end
 warning('on')
+axis equal
+
+% positive indicates compression
 
 end

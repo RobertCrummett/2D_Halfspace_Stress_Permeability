@@ -1,11 +1,5 @@
-function Frames = Plot_Permeability_Ratio(x, z, h, a, phi, permeability_ratio,...
-    contour_number, color_map)
-% Plots the Change of Permeability Ratio In Elastic Half-Space
-% Sources:
-% Amos et al 2014
-% https://www.nature.com/articles/nature13275#Sec6
-% Rinaldi et al 2014
-% https://link.springer.com/article/10.1007/s11242-014-0296-5
+function Frames = Plot_Stress_Feild(x, z, h, a, phi, sigma_feild, feild_name, contour_number, color_map)
+% Plots the XX, XZ, ZZ, Normal, or Shear Stress Feild In Elastic Half-Space
 %
 % Inputs:
 % x - Horizontal range of stress calculation. [m]
@@ -13,8 +7,13 @@ function Frames = Plot_Permeability_Ratio(x, z, h, a, phi, permeability_ratio,..
 % h - Vertical change of glacier height. [m]
 % a - Horizontal change of glacier half-width. [m]
 % phi - Angle from horizontal to project stress onto. [radians]
-% permeability_ratio - Output of the Permeability_Ratio_Calculator()
-%                                       function. [unitless]
+% sigma_feild - Stress feild to plot. [N m^-2]
+% feild_name - Indicate feild type with string:
+%           "XX" - XX Stress Feild
+%           "XZ" - XZ Stress Feild
+%           "ZZ" - ZZ Stress Feild
+%           "Normal" - Normal Stress Feild
+%           "Shear" - Shear Stress Feild
 %
 % Optional Inputs:
 % countour_number - The number of contours to display.
@@ -34,45 +33,47 @@ end
 
 % Preallocating structure for speed
 iterations = length(h);
-Frames = struct('cdata', cell(1, iterations), 'colormap', cell(1,iterations));
+Frames = struct('cdata',cell(1,iterations),'colormap',cell(1,iterations));
 
-% Scaling Contours
-displayCon = linspace(min(permeability_ratio(:)), max(permeability_ratio(:)), contour_number);
-caxCon = [min(permeability_ratio(:)), max(permeability_ratio(:))];
+% Plot Contours
+displayCon = linspace(min(sigma_feild(:)),max(sigma_feild(:)),contour_number);
+caxCon = [min(sigma_feild(:)), max(sigma_feild(:))];
+titleStr = strcat(feild_name, " Stress Feild, ");
 
 warning('off')
 for i = 1:iterations
     
-    % contour plot
-    contour(x/1000,z/1000,transpose(permeability_ratio(:,:,i)),'fill','on',...
-        'linestyle','none','LevelList',displayCon);
+    % Contour Plot
+    contour(x/1000, z/1000, transpose(sigma_feild(:,:,i)),'fill','on','linestyle','none','LevelList',...
+        displayCon);
     set(gca,'YDir','reverse')
     set(gca,'XDir','reverse')
     set(gca,'TitleFontSizeMultiplier',1.4)
     ylabel('Depth (km)','Interpreter','latex')
     xlabel('Distance (km)','Interpreter','latex')
-    title(strcat("Permeability Ratio ${\kappa}/{\kappa}_{i}$, ${\phi} = ",...
-       string(phi*180/pi),"^{\circ}$"),...
+    title([strcat(titleStr, "${\phi} = ",string(phi*180/pi),"^{\circ}$");...
        strcat(strcat("Height = ",string(round(h(i),0,"decimals"))," m"),", ",...
-       strcat("Half-Width = ",string(round(a(i),0,"decimals"))," m")),'Interpreter','latex')
-     axis equal
+       strcat("Half-Width = ",string(round(a(i),0,"decimals"))," m"))],'Interpreter','latex')
 
-    % colorbar
+    % Colorbar
     colormap(color_map)
     cb = colorbar;
     caxis(caxCon)
-    title(cb,'${\kappa}/{\kappa}_{i}$','Interpreter','latex','FontSize',12.5)
+    title(cb,'${MPa}$','Interpreter','latex','FontSize',11)
     
-    % "glacier" animation
+    % Glacier Animation
     ylim([(-max(h/1000) - 1/2), max(z/1000)])
     xpos = [a(i)/1000, a(i)/1000, 0, 0]';
     ypos = [0, -h(i)/1000, -h(i)/1000, 0]';
     patch(xpos, ypos, 'c')
 
-    drawnow
     % frames for videofile
     Frames(i) = getframe(gcf);
+    axis equal
 end
 warning('on')
+axis equal
+
+% positive indicates compression
 
 end

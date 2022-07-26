@@ -38,4 +38,10 @@ for k = 1:length(z)
     end
 end
 
+% sign reversals
+sigma_xx = - sigma_xx;
+sigma_xz = - sigma_xz;
+sigma_zz = - sigma_zz;
+
+% positive stress indicates compression or counterclockwise motion
 end
