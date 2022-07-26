@@ -1,7 +1,9 @@
 # Infinite Line Load affect on Half Space
 -----------------------------------------------------
 Use the folders to plot normal stress, permeability ratio change, or other stuff like shear
-stress or Coulomb failure potential
+stress or Coulomb failure potential in the folder Other_Functions.
+
+Positive stress in this file indicates compression or counter clockwise rotation.
 
 ------------------------------------------------------
 All of the functions have documentation, explaining inputs, outputs, and units of variables.
